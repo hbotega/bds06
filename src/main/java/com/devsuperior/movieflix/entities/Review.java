@@ -19,23 +19,28 @@ public class Review {
 	
 	@ManyToOne
 	@JoinColumn(name = "movie_id")
-	//private Long movieId;
 	private Movie movie;
 	
-	
-	private User userId;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	
 	public Review() {
 		
 	}
-
+	
 	public Review(Long id, String text, Movie movie, User user) {
-		super();
 		this.id = id;
 		this.text = text;
 		this.movie = movie;
-		//this.movieId = movieId;
-		this.userId = user;
+		this.user = user;
+	}
+	
+	public Review(Review entity) {
+		id = entity.getId();
+		text = entity.getText();
+		movie = entity.getMovie();
+		user = entity.getUser();
 	}
 
 	public Long getId() {
@@ -63,19 +68,13 @@ public class Review {
 	}
 
 	public User getUser() {
-		return userId;
+		return user;
 	}
 
 	public void setUser(User user) {
-		this.userId = user;
+		this.user = user;
 	}
-
-	/*public Long getMovieId() {
-		return movieId;
-	}
-
-	public void setMovieId(Long movieId) {
-		this.movieId = movieId;
-	}*/
 	
+	
+
 }

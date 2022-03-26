@@ -1,6 +1,5 @@
 package com.devsuperior.movieflix.service;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.devsuperior.movieflix.dto.GenreDTO;
 import com.devsuperior.movieflix.dto.MovieDTO;
+import com.devsuperior.movieflix.entities.Genre;
 import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.entities.User;
+import com.devsuperior.movieflix.repositories.GenreRepository;
 import com.devsuperior.movieflix.repositories.MovieRepository;
 import com.devsuperior.movieflix.services.exceptions.ResourceNotFoundException;
 
@@ -21,6 +21,9 @@ public class MovieService {
 	
 	@Autowired
 	private MovieRepository repository;
+	
+	@Autowired
+	private GenreRepository genreRepository;
 	
 	@Autowired
 	private AuthService authService;
@@ -67,10 +70,12 @@ public class MovieService {
 
 	
 	@Transactional(readOnly = true)
-	public Optional<MovieDTO> findByGenre(Pageable pageable, Long id) {
+	public Page<MovieDTO> findByGenre(Long genreId, Pageable pageable) {
 		User user = authService.authenticated();
 		authService.validateSelfOrMember(user.getId());
-		Optional<Movie> page = repository.findByGenre(id);
+		Genre genre = (genreId == 0) ? null : genreRepository.findById(genreId).get();//Foi necessário alterar o programa, porque no exemplo abaixo o objeto nao era instanciado de fato, causando erro;
+		//Genre genre = (genreId == 0) ? null : genreRepository.getOne(genreId);//tratado para que o getone não de erro quando o valor do genreid for nulo - expressão condicional ternária
+		Page<Movie> page = repository.findByGenre(genre, pageable);
 		return page.map(x -> new MovieDTO(x));
 	}
 	

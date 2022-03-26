@@ -112,8 +112,4 @@ public class MovieDTO implements Serializable {
 		this.reviews = reviews;
 	}
 	
-	
-	
-	
-
 }

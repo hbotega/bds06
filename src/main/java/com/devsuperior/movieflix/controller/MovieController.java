@@ -38,15 +38,12 @@ public class MovieController {
 		
 	}
 	
-
-	
-	
-	@GetMapping(value = "/movies?genreId=")
-	public ResponseEntity<Optional<MovieDTO>> findByGenre(Pageable pageable, @PathVariable Long id){//(@RequestParam(value = "id", defaultValue = "0") Long id,Pageable pageable){
-		PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("title"));
-		Optional<MovieDTO> page =  service.findByGenre(pageable, id);
-		//Page<MovieDTO> page = service.findAll(pageRequest);
-		return ResponseEntity.ok().body(page);
+	@GetMapping//(value = "/movies?genreId=")
+	public ResponseEntity<Page<MovieDTO>> findByGenre(@RequestParam(value = "genreId", defaultValue = "0") Long genreId,Pageable pageable){
+		//PageRequest pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), Sort.by("title"));
+		//Optional<MovieDTO> page =  service.findByGenre(pageable, id);
+		Page<MovieDTO> list = service.findByGenre(genreId, pageable);
+		return ResponseEntity.ok(list);
 	}
 	
 	/*@GetMapping//(value ="/genres/{id}")

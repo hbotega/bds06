@@ -3,6 +3,7 @@ package com.devsuperior.movieflix.entities;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,7 +36,7 @@ public class Movie {
 	@JoinColumn(name = "genre_id")
 	private Genre genre;
 	
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	@JoinColumn(name = "tb_review")
 	private Set<Review> reviews = new HashSet<>();
 	
@@ -62,6 +63,7 @@ public class Movie {
 		imgUrl = entity.getImgUrl();
 		genre = entity.getGenre();
 	}
+	
 
 	public Long getId() {
 		return id;

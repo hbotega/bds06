@@ -2,44 +2,51 @@ package com.devsuperior.movieflix.dto;
 
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import org.springframework.stereotype.Component;
 
 import com.devsuperior.movieflix.entities.Movie;
 import com.devsuperior.movieflix.entities.Review;
 import com.devsuperior.movieflix.entities.User;
+import com.sun.istack.NotNull;
 
+@Component
 public class ReviewDTO {
 	
 	private Long id;
 	
 	@Size(min = 10, max = 150, message = "Campo deve ter entre 10 e 150 caracteres")
-	@NotBlank(message = "Campo requerido text")
+	@NotEmpty(message = "Campo requerido text")
 	private String text;
 	
-	@NotBlank(message = "Campo requerido movieID")
+	@NotNull//porque se trata de campo numérico notblank e not empty dão erro, so devem ser usados para campos de string
 	private Long movieId;
 	
-	@NotBlank(message = "Campo requerido user")
+	//@NotBlank(message = "Campo requerido user")
 	private User user;
-	@NotBlank(message = "Campo requerido movie")
+	
+	@NotNull
 	private Movie movie;
 	
 	public ReviewDTO() {
 		
 	}
 
-	public ReviewDTO(Long id, String text, Long movieId, User userId) {
+	public ReviewDTO(Long id, String text, Long movieId, User user) {
 		this.id = id;
 		this.text = text;
 		this.movieId = movieId;
-		this.user = userId;
+		//this.movie = movie;
+		this.user = user;
 		}
 
 	public ReviewDTO(Review entity) {
 		id = entity.getId();
 		text = entity.getText();
-		movie = entity.getMovie();
-		//movieId = entity.getMovieId();
+		//movie = entity.getMovie();
+		movieId = entity.getMovie().getId();
 		user = entity.getUser();
 	}
 
@@ -60,20 +67,16 @@ public class ReviewDTO {
 	}
 
 
-	public Long getMovieId() {
-		Movie movie = new Movie();
-		this.movieId = movie.getId();
-		return movieId;
+	public User getUser() {
+		return user;
 	}
 
 	public void setMovieId(Long movieId) {
-		//Movie movie = new Movie();
-		//movieId = movie.setId(movieId);
 		this.movieId = movieId;
 	}
-
-	public User getUser() {
-		return user;
+	
+	public Long getMovieId() {
+		return movieId;
 	}
 
 	public void setUser(User user) {
@@ -87,6 +90,10 @@ public class ReviewDTO {
 	public void setMovie(Movie movie) {
 		this.movie = movie;
 	}
+	
+	/*public Long getUserId() {
+		return user.getId();
+	}*/
 	
 	
 	

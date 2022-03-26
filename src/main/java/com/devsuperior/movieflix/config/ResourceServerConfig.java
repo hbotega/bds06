@@ -26,9 +26,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	
 	private static final String[] VISITOR_GET = {"/genres/**", "/movies/**"};
 	
-	private static final String[] VISITOR_MEMBER_GET = {"/genres/**", "/movies/**", "movies/genres/**"};//, "/movies?genreId=", "/movies?genreId{id}"};
+	private static final String[] VISITOR_MEMBER_GET = {"/genres/**", "/movies/**", "movies/genres/**", "/reviews/**"};//, "/movies?genreId=", "/movies?genreId{id}"};
 	
-	private static final String[] MEMBER_POST = {"/genres/**", "/movies/**", "/review/**"};
+	private static final String[] MEMBER_POST = {"/genres/**", "/movies/**", "/reviews/**"};
 	
 	private static final String[] ADMIN_ALL = {"/genres/**", "/movies/**"};
 	
